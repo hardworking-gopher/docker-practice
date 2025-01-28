@@ -1,3 +1,6 @@
+dist: jammy
+language: go
+
 services:
   - docker
 
@@ -9,7 +12,6 @@ script:
 #after_success:
 #  - docker build -t hardworking-gopher/docker-practice .
 
-language: go
 deploy:
   provider: elasticbeanstalk
   region: "eu-north-1"
