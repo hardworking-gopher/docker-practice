@@ -9,9 +9,10 @@ script:
 #after_success:
 #  - docker build -t hardworking-gopher/docker-practice .
 
+language: go
 deploy:
   provider: elasticbeanstalk
-  region: eu-north-1
+  region: "eu-north-1"
   app: "visits"
   env: "visits-env"
   bucket: "elasticbeanstalk-eu-north-1-182399714917"
