@@ -1,12 +1,12 @@
 sudo: required
 
-services:
-  - docker
+#services:
+#  - docker
 
 #before_install:
 
-script:
-  - docker build -t hardworking-gopher/docker-practice .
+#script:
+#  - docker build -t hardworking-gopher/docker-practice .
 
 #after_success:
 
@@ -20,4 +20,4 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
   on:
-    branch: feature/travis-ci-deployment
+    branch: master
