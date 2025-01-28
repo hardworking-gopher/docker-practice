@@ -3,11 +3,11 @@ services:
 
 #before_install:
 
-#script:
-#  - docker build -t hardworking-gopher/docker-practice .
-
-after_success:
+script:
   - docker build -t hardworking-gopher/docker-practice .
+
+#after_success:
+#  - docker build -t hardworking-gopher/docker-practice .
 
 deploy:
   provider: elasticbeanstalk
