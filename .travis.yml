@@ -14,10 +14,10 @@ script:
 
 deploy:
   provider: elasticbeanstalk
-  region: "eu-north-1"
+  region: "us-east-1"
   app: "visits"
   env: "visits-env"
-  bucket: "elasticbeanstalk-eu-north-1-182399714917"
+  bucket: "elasticbeanstalk-us-east-1-841162702957"
   bucket_path: "visits"
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
