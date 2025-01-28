@@ -6,7 +6,8 @@
 #script:
 #  - docker build -t hardworking-gopher/docker-practice .
 
-#after_success:
+after_success:
+  - docker build -t hardworking-gopher/docker-practice .
 
 deploy:
   provider: elasticbeanstalk
@@ -18,4 +19,5 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
   on:
-    branch: master
+    branch: feature/travis-ci-deployment
+
