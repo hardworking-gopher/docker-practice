@@ -8,6 +8,8 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build -v -o /usr/local/bin/app cmd/main.go
 
+# TODO: Make use of a builder to remove redundant code from production
+
 EXPOSE 8080
 
 CMD ["app"]

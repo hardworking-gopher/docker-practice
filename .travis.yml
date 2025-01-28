@@ -4,13 +4,12 @@ language: go
 services:
   - docker
 
-#before_install:
-
-script:
+before_install:
   - docker build -t hardworking-gopher/docker-practice .
 
-#after_success:
-#  - docker build -t hardworking-gopher/docker-practice .
+
+#script:
+# TODO: Perform testing before moving forward with deployment
 
 deploy:
   provider: elasticbeanstalk
@@ -22,5 +21,6 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
   on:
+    # TODO: Perform tests and builds on PRs
+    # TODO: Perform deploy on merge to master
     branch: feature/travis-ci-deployment
-
