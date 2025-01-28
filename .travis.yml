@@ -1,11 +1,14 @@
+sudo: required
+
 services:
   - docker
 
-before_install:
-  - docker build -t hardworking-gopher/docker-practice .
+#before_install:
 
 script:
-  - docker run -e CI=true hardworking-gopher/docker-practice
+  - docker build -t hardworking-gopher/docker-practice .
+
+#after_success:
 
 deploy:
   provider: elasticbeanstalk
