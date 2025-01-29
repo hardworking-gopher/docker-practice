@@ -1,4 +1,4 @@
-FROM golang:1.21.13-bullseye
+FROM golang:1.21.13-bullseye AS builder
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,11 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build -v -o /usr/local/bin/app cmd/main.go
 
-# TODO: Make use of a builder to remove redundant code from production
+FROM gcr.io/distroless/base-debian11
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/local/bin/app /usr/local/bin/app
 
 EXPOSE 8080
 
