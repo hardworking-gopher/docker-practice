@@ -1,16 +1,14 @@
 dist: jammy
 language: go
 
-services:
-  - docker
-
 jobs:
   include:
     - stage: build
       if: type = pull_request
       script:
         - echo "Building and testing PR..."
-        - docker build -t hardworking-gopher/docker-practice -f dockerfile.dev .
+        - go build ./cmd
+        - go test ./...
 
     - stage: deploy
       if: branch = master AND type = push  # Deploy only on merge to master
