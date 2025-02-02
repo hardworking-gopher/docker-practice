@@ -4,23 +4,24 @@ language: go
 services:
   - docker
 
-before_install:
-  - docker build -t hardworking-gopher/docker-practice .
+jobs:
+  include:
+    - stage: build
+      if: type = pull_request
+      script:
+        - echo "Building and testing PR..."
+        - docker build -t hardworking-gopher/docker-practice -f dockerfile.dev .
 
-
-#script:
-# TODO: Perform testing before moving forward with deployment
-
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-1"
-  app: "visits"
-  env: "visits-env"
-  bucket: "elasticbeanstalk-us-east-1-841162702957"
-  bucket_path: "visits"
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
-  on:
-    # TODO: Perform tests and builds on PRs
-    # TODO: Perform deploy on merge to master
-    branch: feature/travis-ci-deployment
+    - stage: deploy
+      if: branch = master AND type = push  # Deploy only on merge to master
+      script:
+        - echo "Deploying to AWS Elastic Beanstalk..."
+      deploy:
+        provider: elasticbeanstalk
+        region: "us-east-1"
+        app: "visits"
+        env: "visits-env"
+        bucket_name: "elasticbeanstalk-us-east-1-841162702957"
+        bucket_path: "visits"
+        access_key_id: $AWS_ACCESS_KEY
+        secret_access_key: $AWS_SECRET_KEY
