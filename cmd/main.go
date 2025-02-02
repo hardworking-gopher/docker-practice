@@ -11,8 +11,9 @@ import (
 )
 
 const (
-	redisHostNameKey = "REDIS_HOST_NAME"
-	redisVisitsKey   = "visits"
+	redisHostNameKey       = "REDIS_HOST_NAME"
+	redisVisitsKey         = "visits"
+	internalServerErrorMsg = "internal server error"
 )
 
 var (
@@ -64,7 +65,7 @@ func visitsEndpoint(w http.ResponseWriter, r *http.Request) {
 		} else {
 			l.Println("failed to get data from Redis", err)
 
-			internalErrorResponse(w)
+			_, _ = w.Write([]byte(fmt.Sprintf("%s: %s", internalServerErrorMsg, "redis failed to respond")))
 			return
 		}
 	}
@@ -73,7 +74,7 @@ func visitsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		l.Println("failed to convert visits strings to int", err)
 
-		internalErrorResponse(w)
+		_, _ = w.Write([]byte(internalServerErrorMsg))
 		return
 	}
 
@@ -81,13 +82,9 @@ func visitsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		l.Println("failed to set data in Redis")
 
-		internalErrorResponse(w)
+		_, _ = w.Write([]byte(internalServerErrorMsg))
 		return
 	}
 
 	_, _ = w.Write([]byte(fmt.Sprintf("number of visits: %d", visits+1)))
-}
-
-func internalErrorResponse(w http.ResponseWriter) {
-	_, _ = w.Write([]byte("something went wrong"))
 }
