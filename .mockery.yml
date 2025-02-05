@@ -1,0 +1,6 @@
+with-expecter: True
+packages:
+  github.com/hardworking-gopher/docker-kubernetes:
+    config:
+      recursive: true
+      all: True
