@@ -1,14 +1,19 @@
 dist: jammy
 language: go
 
+services:
+  - docker
+
 jobs:
   include:
     - stage: build
       if: type = pull_request
       script:
         - echo "Building and testing PR..."
-        - go build ./cmd
-        - go test ./...
+        - docker build -t pandaemoniumplaza/docker-practice .
+        - echo "Pushing image to Docker hub..."
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push pandaemoniumplaza/docker-practice
 
     - stage: deploy
       if: branch = master AND type = push  # Deploy only on merge to master
