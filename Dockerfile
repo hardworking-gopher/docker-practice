@@ -8,6 +8,8 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build -o /usr/local/bin/app ./cmd
 
+RUN go test -v ./...
+
 FROM gcr.io/distroless/base-debian11
 
 WORKDIR /usr/src/app
