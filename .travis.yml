@@ -1,17 +1,27 @@
 dist: jammy
 language: go
 
+services:
+  - docker
+
+env:
+  global:
+    - SHA=$(git rev-parse HEAD)
+
 jobs:
   include:
     - stage: build
       if: type = pull_request
       script:
         - echo "Building and testing PR..."
-        - go build ./cmd
-        - go test ./...
+        - docker build -t pandaemoniumplaza/docker-practice:latest -t pandaemoniumplaza/docker-practice:$SHA .
+        - echo "Pushing image to Docker hub..."
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push pandaemoniumplaza/docker-practice:latest
+        - docker push pandaemoniumplaza/docker-practice:$SHA
 
     - stage: deploy
-      if: branch = master AND type = push  # Deploy only on merge to master
+      if: branch = master AND type = push
       script:
         - echo "Deploying to AWS Elastic Beanstalk..."
       deploy:
