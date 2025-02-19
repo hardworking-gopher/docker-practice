@@ -14,13 +14,13 @@ jobs:
       if: type = pull_request
       script:
         - echo "Building and testing PR..."
-        - docker build -t pandaemoniumplaza/docker-practice .
+        - docker build -t pandaemoniumplaza/docker-practice:latest pandaemoniumplaza/docker-practice:$SHA .
         - echo "Pushing image to Docker hub..."
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push pandaemoniumplaza/docker-practice
+        - docker push pandaemoniumplaza/docker-practice:latest pandaemoniumplaza/docker-practice:$SHA
 
     - stage: deploy
-      if: branch = master AND type = push  # Deploy only on merge to master
+      if: branch = master AND type = push
       script:
         - echo "Deploying to AWS Elastic Beanstalk..."
       deploy:
