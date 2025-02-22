@@ -12,15 +12,15 @@ spec:
       labels:
         component: app-redis
     spec:
-      volumes:
-        - name: redis-storage
-          persistentVolumeClaim:
-            claimName: database-persistent-volume-claim
       containers:
         - name: redis
           image: redis
-          ports:
+          ports :
             - containerPort: 6379
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data # TODO: REFACTOR TO REDIS
-              name: redis-storage
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc

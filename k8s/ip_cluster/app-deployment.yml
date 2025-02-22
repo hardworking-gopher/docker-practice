@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: app-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       component: app
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: visists-app
-          image: pandaemoniumplaza/docker-practice
+          image: pandaemoniumplaza/docker-practice:multiarch
           ports:
             - containerPort: 8080
           env:
